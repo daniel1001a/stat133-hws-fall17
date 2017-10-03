@@ -1,0 +1,188 @@
+---
+title: "hw02-Daniel-Kang.Rmd"
+author: "Daniel Kang"
+date: "9/29/2017"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# download csv file to your working directory
+# (do NOT include this code in your Rmd)
+github <- "https://github.com/ucb-stat133/stat133-fall-2017/raw/master/"
+file <- "data/nba2017-player-statistics.csv"
+csv <- paste0(github, file)
+download.file(url = csv, destfile = 'nba2017-player-statistics.csv')
+getwd()
+library(dplyr)
+```
+
+#basis#2
+```{r}
+#the columns Player, Team, and Experience have to be declared as type character.
+getwd()
+cat1 <- read.csv("nba2017-player-statistics.csv", TRUE, ",")
+cat1s <- read.csv("nba2017-player-statistics.csv", TRUE, colClasses = c("character","character","factor", "character", "double", "integer","integer","integer","integer","integer","integer","integer","integer","integer","integer","integer","integer","integer","integer","integer","integer","integer","integer","integer" ))
+str(cat1)
+```
+
+#readr#2
+```{r}
+library(readr)
+cat2 <- read_csv("data/nba2017-player-statistics.csv")
+str(cat2)
+
+cat2 <- read_csv("nba2017-player-statistics.csv", 
+                 col_types = list(Player = col_character(), 
+                 Team = col_character(), 
+                 Position = col_factor(c("C", "SF", "PF", "PG","SG")),
+                 Experience = col_character(), 
+                 Salary = col_double())
+                 
+)
+str(cat1)
+
+```
+
+#3 change the values in Ecperience
+```{r}
+
+cat1$Experience[cat1$Experience == 'R'] <- 0
+cat1$Experience = as.integer(cat1$Experience)
+
+```
+
+#4 Performance of players
+```{r}
+
+missed_fg <- cat1$FGA - cat1$FGM
+missed_ft <- cat1$FTA - cat1$FTM
+PTS <- cat1$Points2 * 2 + cat1$Points3*3 + cat1$FTM
+AST <- cat1$AST
+STL <- cat1$STL
+TO <- cat1$TO
+REB <- cat1$OREB+cat1$DREB
+GP <- cat1$GP
+BLK <- cat1$BLK
+EFF <- (PTS + REB + cat1$AST + cat1$STL + cat1$BLK - missed_fg - missed_ft - cat1$TO)/GP
+MPG <- cat1$MIN/cat1$GP
+summary(EFF)
+
+#graph
+hist(EFF, breaks = 5,
+     freq = TRUE,
+     border = TRUE,
+     xlim = c(-5,35),
+     main = "Histogram of Effucuency (EFF)")
+```
+
+```{r}
+#Disply the player, name, team, salary and EFF value of the top 10 players by EEF in decreasing order
+cat1 <- mutate(cat1,EFF)
+top10EFF <- arrange(cat1, desc(EFF))
+top10EFF[1:10, c("Player", "Team", "Salary", "EFF")]
+```
+
+```{r}
+#procide the names fo the players that have a negitive EFF
+nEFF <- data.frame(cat1[EFF < 0,])
+nEFF
+```
+
+```{r}
+#Correlation
+Correlation <- data.frame (
+                          PTS = cor(EFF,PTS), 
+                          REB = cor(EFF, REB),
+                          AST = cor(EFF, AST), 
+                          STL = cor(EFF, STL), 
+                          BLK = cor(EFF, BLK),
+                          TO = cor(EFF, (-1)* TO),
+                          missed_fg = cor(EFF, (-1)*missed_fg), 
+                          missed_ft = cor(EFF, (-1)*missed_ft)
+                          
+)
+Correlation
+```
+```{r}
+cat1 <- mutate(cat1,EFF)
+str(cat1)
+```
+```{r}
+#display
+new_Cor <- sort(Correlation, decreasing = TRUE)
+barplot(as.numeric(new_Cor), ylim = c(-1,1), main = 'Correlation between Player Stats and EFF', names.arg = variable.names(new_Cor), col = ifelse(as.numeric(new_Cor) > 0, "grey", "coral2"), border = NA)
+abline(h = 0)
+```
+#5 Efficiency and Salary
+```{r}
+#5
+X = data.frame(cat1$EFF, cat1$Salary)
+plot(X, main = "Efficiency and Salary", xlab = "Efficiency", ylab = "Salary")
+lines(lowess(X), col = "black", lwd = 2.5)
+cor(cat1$EFF, cat1$Salary)
+cat1[MPG >= 20, ]
+
+```
+
+```{r}
+#creat players2
+players2 <- data.frame(cat1[MPG >= 20, ] )
+plot(players2$EFF,players2$Salary, ylab = "Salary", xlab = "Efficiency", cex = 0.7, col = "grey", main = "scatterplot between Efficiency and Salary ", lines(lowess(players2$EFF,players2$Salary), lwd = 2.5, col = "red"))
+cor(players2$EFF, players2$Salary)
+
+
+```
+#6 Questions answer.
+• What things were hard, even though you saw them in class/lab?
+setting up the variable is hard for me.
+
+• What was easy(-ish) even though we haven’t done it in class/lab?
+assigning the variables.
+
+• Did you need help to complete the assignment? If so, what kind of help?
+yes I do. I need someone to explain how to use that function.
+
+• How much time did it take to complete this HW?
+more than 6 hours
+
+• What was the most time consuming part?
+First you need to have the right function to have the right variable and so you can have the tight graph. It take a lot of time to go back to find the mistake.
+
+• Was there anything that you did not understand? or fully grasped?
+the meaning of data frame is still a but confuse although i know how to use it.
+
+• Was there anything frustrating in particular?
+Not really.
+
+• Was there anything exciting? Something that you feel proud of? (Don’t be shy, we
+won’t tell anyone).
+yes, due to I am a NBA fan so i have a lot of fun watching or testing the things that i made. I can put in some of my fav player stuff like that! thats so fun!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
