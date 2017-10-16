@@ -1,0 +1,140 @@
+---
+title: "hw03-Daniel-Kang"
+author: "Daniel Kang"
+date: "10/15/2017"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+setwd('/Users/Danielisgood/stat133-hws-fall17/hw3/report')
+library(ggplot2)
+library(readr)
+library(dplyr)
+teams_data <- read.csv('/Users/Danielisgood/stat133-hws-fall17/hw3/data/nba2017-teams.csv')
+
+```
+
+```{r}
+library(ggplot2)
+#Basic Ranking
+#Rank by total Salary
+ggplot(teams_data, aes(x = reorder(team, salary), y = salary))+
+  geom_bar(stat = 'identity', color = 'white', fill = 'grey')+
+  coord_flip()+
+  ylab("Total Salary") + xlab("Team")+
+  ggtitle("NBA Team ranked by Total Salary")+
+  geom_hline(yintercept = mean(teams_data$salary), color = "red", size = 1.5)
+```
+
+```{r}
+#Rank by total Points
+library(ggplot2)
+ggplot(teams_data, aes(x = reorder(team, points), y = points))+
+  geom_bar(stat = 'identity', color = 'white', fill = 'grey')+
+  coord_flip()+
+  ylab("Total Points") + xlab("Team")+
+  ggtitle("NBA Team ranked by Total Points")+
+  geom_hline(yintercept = mean(teams_data$points), color = "red", size = 1.5)
+```
+
+```{r}
+#Rank by total Efficiency
+library(ggplot2)
+ggplot(teams_data, aes(x = reorder(team, efficiency), y = efficiency))+
+  geom_bar(stat = 'identity', color = 'white', fill = 'grey')+
+  coord_flip()+
+  ylab("Total Efficiency") + xlab("Team")+
+  ggtitle("NBA Team ranked by Total Efficiency")+
+  geom_hline(yintercept = mean(teams_data$efficiency), color = "red", size = 1.5)
+```
+
+```{r}
+#prcomp()
+PCA <- prcomp(teams_data[c('points3', 'points2', 'free_throws', 'off_rebounds', 
+              'def_rebounds', 'assists', 'steals', 'blocks', 'turnovers', 'fouls')], scale. = TRUE)
+names(PCA)
+
+```
+
+```{r}
+#data frame with the eigenvalues:
+eig_df <- data.frame(
+  Eigenvalue = round(PCA$sdev^2, 4), 
+  prop <- round((PCA$sdev^2) / sum(PCA$sdev^2), 4),
+  cumProp = round(cumsum(prop), 4)
+  )
+eig_df
+eig_df <- mutate(eig_df, cumprop = cumsum(prop))
+eig_df <- round(eig_df, 4)
+
+```
+
+```{r}
+#Use the first two PCs to get a scatterplot of the teams
+PCA_x <- as.data.frame(PCA$x)
+PCA_x[ ,"team"] <- teams_data[ ,"team"]
+
+ggplot(PCA_x, aes(x = PC1, y = PC2))+
+  geom_text(aes(label = PCA_x$team))
+```
+
+```{r}
+#Index based on PC1
+S1 <- 100 * (PCA_x[ ,1] - min(PCA_x[ ,1])) / (max(PCA_x[ ,1]) - min(PCA_x[ ,1]))
+S1t <- as.data.frame(S1)
+S1t[ ,"team"] = teams_data[ ,"team"]
+```
+
+```{r}
+#NBA Teams ranked by scaled PC1
+dim(S1t)
+ggplot(teams_data, aes(x = reorder(S1t$team, S1t$S1), y = S1))+
+  geom_bar(stat = 'identity', color = 'white', fill = 'grey')+
+  coord_flip()+
+  ylab("First PC (scaled from 0 to 100)") + xlab("Team")+
+  ggtitle("NBA Teams ranked by scaled PC1")
+  
+```
+
+
+#Comments and Reflections
+```{r}
+#Was this your first time working on a project with such file structure? If yes, how do you feel about it?
+#yes I feel it is pretty hard
+
+
+#Was this your first time using relative paths? If yes, can you tell why they are important for reproducibility purposes?
+#yes, It is more clearly 
+
+
+#Was this your first time using an R script? If yes, what do you think about just writing code?
+#No.
+
+
+#What things were hard, even though you saw them in class/lab?
+#PCA part was hard
+
+
+#What was easy(-ish) even though we haven’t done it in class/lab?
+#ggplot
+
+
+#Did anyone help you completing the assignment? If so, who?
+#Yes, GST and lab assistents 
+
+
+#How much time did it take to complete this HW?
+#over 8 hours 
+
+
+#What was the most time consuming part?
+#self-learning PCA
+
+
+#Was there anything interesting?
+#I like to look at the graph after I analyst it. It is cool
+```
