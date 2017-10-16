@@ -1,0 +1,54 @@
+---
+title: "Lab4"
+author: "Daniel Kang"
+date: "9/27/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+csv <- "https://github.com/ucb-stat133/stat133-fall-2017/raw/master/data/nba2017-players.csv"
+download.file(url = csv, destfile = 'nba2017-players.csv')
+```
+
+```{r}
+dat <- read.csv('nba2017-players.csv', stringsAsFactors = FALSE)
+dim(dat)
+head(dat)
+tail(dat)
+str(dat)
+summary(dat)
+```
+
+```{r}
+tbl <- data.frame(
+  player = c('Thompson', 'Curry', 'Green', 'Durant', 'Pachulia'),
+  position = c('SG', 'PG', 'PF', 'SF', 'C'),
+  salary = c(16663575, 12112359, 15330435, 26540100, 2898000),
+  points = c(1742, 1999, 776, 1555, 426),
+  ppg = c(22.3, 25.3, 10.2, 25.1, 6.1),
+  rookie = rep(FALSE, 5),
+  stringsAsFactors = FALSE
+)
+str(tbl)
+
+```
+
+```{r}
+#Display the last 5 rows of the data.
+dat[437:441,]
+#Display those rows associated to players having height less than 70 inches tall
+dat[which(dat[, 4] < 70),]
+#Create a data frame rookies with those players with 0 years of experience.
+rookies = data.frame((dat[which(dat[, 7] == 0), ]))
+#Who is the tallest player?
+dat[which.max(dat[, 4]), 1]
+```
+
+```{r}
+#Create a data frame with the average height, average weight, and average age, grouped by position
+groupby1 = aggregate(dat[, c("height", "weight", "age")], by = list(dat$position), FUN = mean)
+```

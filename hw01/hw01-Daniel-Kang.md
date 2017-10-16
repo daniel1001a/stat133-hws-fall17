@@ -59,8 +59,8 @@ y_hat <- b0 + b1 * x
 plot(points, new_salary, main = "Scatterplot of Points and Salary", xlab = 'points', ylab = 'new_salary', pch = 15, col =80 , cex = 1)
 abline(lm(y_hat~points), lwd = 3, col = 80)
 lines(lowess(y ~ x, f = 9), col = 80, lwd = 3)
-text(x = 2500, y = 50, labels = "regression")
-text(x = 2500, y = 50, labels = "lowess")
+text(x = 1500, y = 10, labels = "regression")
+text(x = 2500, y = 20, labels = "lowess")
 ```
 
 ![](hw01-Daniel-Kang_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-6-1.png)

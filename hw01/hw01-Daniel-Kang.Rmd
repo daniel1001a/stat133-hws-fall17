@@ -61,8 +61,8 @@ y_hat <- b0 + b1 * x
 plot(points, new_salary, main = "Scatterplot of Points and Salary", xlab = 'points', ylab = 'new_salary', pch = 15, col =80 , cex = 1)
 abline(lm(y_hat~points), lwd = 3, col = 80)
 lines(lowess(y ~ x, f = 9), col = 80, lwd = 3)
-text(x = 2500, y = 50, labels = "regression")
-text(x = 2500, y = 50, labels = "lowess")
+text(x = 1500, y = 10, labels = "regression")
+text(x = 2500, y = 20, labels = "lowess")
 ```
 
 ```{r}
@@ -72,7 +72,7 @@ y <- new_salary
 #Residual Sum 
 e_ii <- y - y_hat
 RSS <- sum((e_ii)^2)
-TSS <- ((var_ofy - mean_ofy)^2)
+TSS <- ((y - mean_ofy)^2)
 RSQ <- 1- (RSS/TSS)
 summary(e_ii)
 RSS
@@ -82,7 +82,8 @@ RSQ
 
 ```{r}
 #7
-plot(points, new_salary, main = "Scartterpolt with Lowess Smooth", xlab = "Years of Experience", lines(lowess(points,new_salary ), col = 10))
+plot(experience, new_salary, main = "Scartterpolt with Lowess Smooth", xlab = "Years of Experience", lines(lowess(points,new_salary ), col = 10))
+lines(lowess(experience, new_salary), lwd = 3, col = 70)
 ```
 
 
