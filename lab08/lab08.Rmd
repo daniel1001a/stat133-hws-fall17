@@ -1,0 +1,42 @@
+---
+title: "Lab8"
+author: "Daniel Kang"
+date: "10/23/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+#Write a for loop to approximate sin(x). Try different number of terms, n = 5, 10, 50, 100. Compare your loop with the sin() function.
+```{r}
+sm = 0
+x = pi
+for( i in 0:5 ){
+  sm = sm+(-1)^i*x^(2*i+1)/factorial(2*i+1)
+}
+sm
+  
+```
+
+```{r}
+set.seed(123)
+X <- matrix(rnorm(12), nrow = 4, ncol = 3)
+Y <- matrix(NA, nrow = 4, ncol = 3)
+for(i in 1:nrow(Y)) 
+  for(j in 1:ncol(Y))
+    Y[i,j] <- X[i,j] +i
+Y
+```
+B <- matrix(NA, nrow = 5, ncol = 4)
+
+# for loop to get matrix B
+for (i in 1:nrow(A)) {
+  for (j in 1:ncol(A)) {
+    B[i,j] <- A[i,j] + i
+  }
+}
+
+B

@@ -47,7 +47,7 @@ teams <- summarise(group_by(totaldat, team),
             fouls = sum(fouls),
             efficiency =  sum(efficiency)
             )
-
+summary(teams)
 sink(file = '/Users/Danielisgood/stat133-hws-fall17/hw3/data/teams-summary.txt')
 
 sink()
@@ -55,24 +55,17 @@ sink()
 write.csv(teams, file = '/Users/Danielisgood/stat133-hws-fall17/hw3/data/nba2017-teams.csv',row.names = FALSE )
 
 #use stars() to get a star plot fo the teams
-pdf('/Users/Danielisgood/stat133-hws-fall17/hw3/images/teams_star_plot.pdf')
-stars(teams[ ,-1], labels = teams$team )
+pdf(file = '/Users/Danielisgood/stat133-hws-fall17/hw3/images/teams_star_plot.pdf')
+stars(teams[ ,-1], labels = as.character(teams$team ))
 dev.off
 
 
 #use ggplot() to get a scatterplot of experience and salary, in which the names of the teams are included.
-library(ggplot2)
-experience_salary <- ggplot(teams, aes(x = experience, y = salary))+
-  geom_point(size = 2, shape = 2, color = 3)+
-  xlab("experience") + ylab("salary (in millions)")+
-  geom_text(label = rownames(teams), size = 2, vjust = -1.5)
-experience_salary
-
 pdf(file = '/Users/Danielisgood/stat133-hws-fall17/hw3/images/experience_salary.pdf')
-ggplot(size = 2, shape = 2, color = 3)+
-  geom_point(size = 2, shape = 2, color = 3)+
+ggplot(size = 3, shape = 1, color = 6)+
+  geom_point(size = 3, shape = 1, color = 6)+
   xlab("experience") + ylab("salary (in million")+
-  geom_text(label = rownames(teams), size = 2, vjust = -1.5)
+  geom_text(label = rownames(teams), size = 3, vjust = -1.5)
 dev.off()
 
 
