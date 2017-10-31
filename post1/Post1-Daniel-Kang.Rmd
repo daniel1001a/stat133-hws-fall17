@@ -2,7 +2,7 @@
 title: "Post1-Daniel-Kang.Rmd"
 author: "Daniel Kang"
 date: "10/28/2017"
-output: html_document
+output: github_document
 ---
 #The Entry to WindRose
 ```{r setup, include=FALSE}
@@ -24,6 +24,7 @@ post1 <- read.csv('/Users/Danielisgood/stat133-hws-fall17/hw02/data/nba2017-play
 ![points and lines](http://r-statistics.co/screenshots/ggplot_1.png)
 ![Boxplot](http://www.ggplot2-exts.org/images/carousel-ggstance.png)
 ![Interesting, isn't it?](http://www.ggplot2-exts.org/images/carousel-ggalt.png)
+
 ![](http://wresch.github.io/assets/2012-11-06-fig1.png)
 
 ##The history of `ggplot2` and `Wind rose`
