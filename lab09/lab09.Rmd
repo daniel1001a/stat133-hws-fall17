@@ -1,0 +1,19 @@
+---
+title: "lab09"
+author: "Daniel Kang"
+date: "11/1/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#Create two character vectors box1 and box2 with colors of balls:
+bag1 <- c( rep('blue' ,2), 'red')
+bag2 <- c(rep('red' ,3),rep('blue', 2), 'white')
+#simulate one random experiment
+#draw the balls according to the random experiment
+#(repeated 1000 times)
+```
