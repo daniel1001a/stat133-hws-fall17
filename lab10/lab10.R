@@ -1,0 +1,10 @@
+#examples
+head(USArrests)
+states <- rownames(USArrests)
+head(states)
+num_chars <- nchar(states)
+paste('Pumpkin', 'Pie')
+paste('a', 'b', 'c', 'd', 'e')
+paste('a', 'b', 'c', 'd', 'e', sep = '-')
+paste('a', 1:5, sep = '.')
+paste0('Pumpkin', 'Pie')

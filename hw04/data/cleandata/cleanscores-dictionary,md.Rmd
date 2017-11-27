@@ -1,0 +1,26 @@
+---
+title: "cleanscores-dictionary.md"
+author: "Daniel Kang"
+date: "11/26/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# homework assignments: columns HW1 to HW9, each 100 pts
+# lab attendance: ATT, number of attended labs (0 to 12)
+# quiz scores:
+# QZ1, 12 pts
+# QZ2, 18 pts
+# QZ3, 20 pts
+# QZ4, 20 pts
+# exam 1: EX1, 80 pts
+# exam 2: EX2, 90 pts
+# Tests: each 100 pts
+# Lab: the grade of the lab, total 100 pts
+# Homework : the averange of the homeworks after drop meet the grade calculation logistic. 
+# Quiz: the averange of the Quiz
+# Overall: the grade after all the calculations, it is more like what you exactly what you score in the class
+# Grade: The grade the show the letter grade. 
